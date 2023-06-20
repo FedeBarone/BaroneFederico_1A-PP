@@ -1,9 +1,9 @@
 import json
 import os
 import re
-from busquedas import*
-from output import*
-from input import*
+from busquedas_copy import*
+from output_copy import*
+from input_copy import*
 #------------------------------------------------------MODULO FUNCIONES DE INSUMOS-------------------------------------------------------
 def normalizar_datos_numericos(lista: list, key: str, key_dos: str)-> list:
     """_summary_

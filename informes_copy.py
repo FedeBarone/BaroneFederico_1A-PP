@@ -1,7 +1,7 @@
-from insumos import *
-from input import*
-from calculos import*
-from ordenamientos import*
+from insumos_copy import *
+from input_copy import*
+from calculos_copy import*
+from ordenamientos_copy import*
 #------------------------------------------------------MODULO DE INFORMES----------------------------------------------------------------
 def cargar_datos_desde_archivo(path: str)-> list: #1
     """_summary_

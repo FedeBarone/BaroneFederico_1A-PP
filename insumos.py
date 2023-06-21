@@ -53,6 +53,8 @@ def leer_csv(path: str)-> list:
             lista.append(diccionario)
     return lista
 
+lista_insumos = leer_csv("insumos.csv")
+
 def mostrar_insumo(insumo: dict):
     """_summary_
     Muestra el valor de los campos de un insumo
@@ -128,27 +130,6 @@ def mostrar_marcas(lista: list):
         for elemento in lista_sin_repe:
             print(elemento)
 
-# def acumular_precio_insumos(lista: list, elemento_aux: str, key_uno: str, elemento_aux_dos: str, key_dos: str, key_tres: str):#BIEN
-#     """_summary_
-#     Acumula el precio de todos los insumos
-#     Args:
-#         lista (list): lista a recorrer
-#         elemento_aux (str): elemento pasado por parametro a comparar
-#         key_uno (str): campo de la lista a comparar
-#         elemento_aux_dos (str): elemento pasado por parametro a comparar
-#         key_dos (str): campo a comparar
-#         key_tres (str): campo a acumular
-
-#     Returns:
-#         _type_: _description_
-#     """
-#     if type(lista) == type(list()) and len(lista) > 0 and type(elemento_aux) == type(str()) and type(key_uno) == type(str()) and type(elemento_aux_dos) == type(str()) and type(key_dos) == type(str())and type(key_tres) == type(str()):
-#         acum = 0
-#         for insumo in lista:
-#             if elemento_aux == insumo[key_uno] and elemento_aux_dos == insumo[key_dos]:
-#                 acum += float(insumo[key_tres])
-#         return acum
-
 def guardar_json(path: str, lista: list)-> None:#BIEN
     """_summary_
         Guarda en un archivo json los insumos que contienen la palabra "alimento"
@@ -178,11 +159,13 @@ def leer_json(path: str)-> dict:# BIEN
         dict: retorna el diccionario con los productos 
     """
     if type(path) == type(str()):
-        print("archivo leido!")
-        with open(path, "r") as file:
-            dicciconario = json.load(file)
-        
-        return dicciconario
+        try:
+            with open(path, "r") as file:
+                dicciconario = json.load(file)
+                print("archivo leido!")
+        except FileNotFoundError:
+                    print("No hay ningun archivo para leer")
+    return dicciconario
 
 def guardar_csv(path: str, lista: list):#9  BIEN
     """_summary_
@@ -258,26 +241,6 @@ def imprimir_patron_producto()-> str:#BIEN
                     |^Ropa para perros$|^Alimento para peces$|^Transportadora para perros$|^Cepillo para perros$"""
     return patron_producto
 
-
-
-
-
-
-
-# Requerimientos extra
-# 1. El programa deberá permitir agregar un nuevo producto a la lista (mediante una
-# nueva opción de menú).
-
-# Al momento de ingresar la marca del producto se deberá mostrar por pantalla un
-# listado con todas las marcas disponibles. Las mismas serán cargadas al programa
-# desde el archivo marcas.txt.
-
-# En cuanto a las características, se podrán agregar un mínimo de una y un máximo
-# de 3.
-
-# 2. Agregar una opción para guardar todos los datos actualizados (incluyendo las altas).
-# El usuario elegirá el tipo de formato de exportación: csv o json.
-
 def buscar_mayor_id(lista: list, key: str):
     primer_id = lista[0]
     mayor_id = int(primer_id[key])
@@ -304,6 +267,8 @@ def cargar_marcas_txt(path: str)-> list:
                 marcas.append(linea)
     return marcas
 
+lista_marcas = cargar_marcas_txt("marcas.txt")
+
 def mostrar_elemento(elemento: str)-> None:
     """_summary_
     Muestra un elemento de una lista
@@ -322,92 +287,3 @@ def mostrar_elementos(lista: list)-> None:
     """
     for elemento in lista:
         mostrar_elemento(elemento)
-
-def agregar_producto(lista: str, l, key)-> list:
-    """_summary_
-    Agrega un producto a una lista de diccionarios
-
-    Args:
-        lista (str): lista a recorrer
-
-    Returns:
-        list: devuelve la lista con los productos agregados
-    """
-    seguir = 's'
-    next_id = buscar_mayor_id(l, "id")+ 1 
-    lista_producto = []
-
-    while seguir == 's':
-        diccionario_producto = {}
-        mostrar_elementos(lista)
-        marca_ingreso = ingresar_cadena_valida_con_o_sin_patron("Ingrese marca: ", "", False)
-        while not buscar_elemento_en_lista(lista, marca_ingreso):
-                print("Esa marca no esta en la lista!")
-                marca_ingreso = input("Reingrese marca: ")
-        caracteristica = input("\nCaracteristica ingrese: ")
-        diccionario_producto = {
-                            "id": next_id,
-                            "nombre": "",
-                            "marca": marca_ingreso,
-                            "precio": 0,
-                            "caracteristicas": caracteristica   
-        }
-        lista_producto.append(diccionario_producto)
-        next_id = next_id + 1
-        seguir = input("\nDesea seguir ingresando?][s/n]")
-    return lista_producto
-
-def exportar_a_csv(path: str, lista: list)-> None:
-    if type(path) == type(str()) and type(lista) == type(list()) and len(lista) > 0:
-        print("archivo generado!")
-        with open(path, 'w', encoding='utf-8') as file:
-            file.write("ID,NOMBRE,MARCA,PRECIO,CARACTERISTICAS\n")
-            for linea in lista:
-                file.write(f"{linea['id']},{linea['nombre']},{linea['marca']},${linea['precio']:.2f},{linea['caracteristicas']}\n")
-
-def exportar_a_json(path: str, lista: list)-> None:
-    if type(path) == type(str()) and type(lista) == type(list()) and len(lista) > 0:
-        print("archivo generado!")
-        insumos = {"insumos": lista}
-        with open(path, "w", encoding='utf-8') as file:
-            json.dump(insumos, file, indent = 4)
-
-
-try:
-    with open("prueba.json", "r", encoding='utf-8') as file:
-        insumos = json.load(file)
-        lista_insumos = insumos["insumos"]
-except FileNotFoundError:
-    lista_insumos = leer_csv("insumos.csv")
-    normalizar_datos_numericos(lista_insumos, "precio", "id")
-
-lista_marcas = cargar_marcas_txt("marcas.txt")
-
-seguir = 's'
-next_id = buscar_mayor_id(lista_insumos, "id")+ 1 
-lista_producto = []
-
-while seguir == 's':
-    diccionario_producto = {}
-    mostrar_elementos(lista_marcas)
-    marca_ingreso = ingresar_cadena_valida_con_o_sin_patron("Ingrese marca: ", "", False)
-    while not buscar_elemento_en_lista(lista_marcas, marca_ingreso):
-            print("Esa marca no esta en la lista!")
-            marca_ingreso = input("Reingrese marca: ")
-    caracteristica = input("\nCaracteristica ingrese: ")
-    diccionario_producto = {
-                        "id": next_id,
-                        "nombre": "",
-                        "marca": marca_ingreso,
-                        "precio": 0,
-                        "caracteristicas": caracteristica   
-    }
-    lista_producto.append(diccionario_producto)
-    next_id = next_id + 1
-    seguir = input("\nDesea seguir ingresando?][s/n]")
-
-lista_insumos.extend(lista_producto)
-
-insumos = {"insumos": lista_insumos}
-with open("prueba.json", "w", encoding='utf-8') as file:
-    json.dump(insumos, file, indent = 4)

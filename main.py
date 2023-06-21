@@ -48,7 +48,20 @@
 # productos, utilizando la función map. Los productos actualizados se
 # guardan en el archivo "Insumos.csv".
 
-# 10. Salir del programa
+# Requerimientos extra
+# 10. El programa deberá permitir agregar un nuevo producto a la lista (mediante una
+# nueva opción de menú).
+
+# Al momento de ingresar la marca del producto se deberá mostrar por pantalla un
+# listado con todas las marcas disponibles. Las mismas serán cargadas al programa
+# desde
+
+# 11. Agregar una opción para guardar todos los datos actualizados (incluyendo las altas).
+# El usuario elegirá el tipo de formato de exportación: csv o json.
+
+# 12. Salir del programa
+
+
 
 import os
 from output import *
@@ -62,13 +75,17 @@ lista_menu_principal = [
     "10- Agregar nuevo producto a la lista ", "11- Guardar datos actualizados", "12- Salir del programa"
 ]
 cargar_lista = False
+flag_lista_producto = False
 
 while True:
     os.system("cls")
     match mostrar_menu_principal(lista_menu_principal):
         case '1':
-            lista_archivo = cargar_datos_desde_archivo("insumos.csv")
-            normalizar_datos_numericos(lista_archivo, "precio", "id")
+            if cargar_lista:
+                print("Ya se ha cargado el archivo csv")
+            else:
+                lista_archivo = cargar_datos_desde_archivo("insumos.csv")
+                normalizar_datos_numericos(lista_archivo, "precio", "id")
             cargar_lista = True
         case '2':
             if not cargar_lista:
@@ -114,27 +131,46 @@ while True:
             if not cargar_lista:
                 print("Debe cargar el archivo!")
             else:
-                guardar_en_formato_JSON("alimentos.json", lista_archivo)
+                try:
+                    guardar_en_formato_JSON("alimentos.json", lista_archivo)
+                except NameError:
+                    print("Cargue el archivo por favor")
         case '8':
-            if not cargar_lista:
-                print("Debe cargar el archivo!")
-            else:
                 leer_desde_formato_JSON("alimentos.json")
         case '9':
             if not cargar_lista:
                 print("Debe cargar el archivo!")
             else:
-                actualizar_precios(lista_archivo) 
+                try:
+                    actualizar_precios(lista_archivo)
+                except NameError:
+                    print("Cargue el archivo por favor")
         case '10':
-            lista_marcas = cargar_marcas_txt("marcas.txt")
-            lista_productos = agregar_producto(lista_marcas, lista_archivo, "id")
-            lista_archivo.extend(lista_productos)
+            if not cargar_lista:
+                print("Debe cargar el archivo!")
+            else:
+                try:
+                    lista_producto = agregar_producto(lista_archivo)
+                    lista_archivo.extend(lista_producto)
+                    flag_lista_producto = True
+                except NameError:
+                    print("Cargue el archivo por favor")
         case '11':
-            opcion = input("Ingrese A para expoartar csv o B para json: ")
-            if opcion == 'A':
-                exportar_a_csv("prueba.csv", lista_archivo)
-            elif opcion == 'B':
-                exportar_a_json("prueba.json", lista_archivo)
+            if not cargar_lista:
+                if not flag_lista_producto:
+                    print("Debe cargar el archivo o agregar un producto para exportar!")
+            else:
+                try:
+                    opcion = input("Ingrese 'a' para exportar CSV o 'b' para exportar JSON: ")
+                    while not re.match("^[ab]$", opcion):
+                        print("Opcion invalida. Por favor, ingrese 'a' o 'b'.")
+                        opcion = input("Ingrese 'a' para exportar CSV o 'b' para exportar JSON: ")
+                    if opcion == 'a':
+                        exportar_a_csv("prueba.csv", lista_archivo)
+                    elif opcion == 'b':
+                        exportar_a_json("prueba.json", lista_archivo)
+                except NameError:
+                    print("Cargue el archivo por favor")
         case '12':
             salir = salir_del_menu()
             if salir == 's':

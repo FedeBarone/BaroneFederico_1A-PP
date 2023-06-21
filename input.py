@@ -15,6 +15,42 @@ def es_solo_texto(string: str)-> bool:#6
             return_aux = True
         return return_aux
 
+def es_letras_con_numeros(string: str)-> bool:
+    """_summary_
+    Valida con regex que el string que se pasa por parametro sea letras con numeros
+    Args:
+        string (str): string a validar
+
+    Returns:
+        bool: true si el dato fue validado, false sino se pudo
+    """
+    if type(string) == type(str()):
+        return_aux = False
+        if re.match("^[a-zA-Z0-9\s]+$", string):
+            return_aux = True
+        return return_aux
+
+def ingresar_letras_numeros(mensaje: str, mensaje_error: str)-> str:
+    """_summary_
+        Pide un dato que sea de tipo string con numeros
+
+    Args:
+        cadena (str): cadena a validar
+        texto (str): mensaje a mostrar cuando se va a ingresar el dato
+
+    Returns:
+        _type_(str): retorna la cadena validada al ingreso de texto
+    """
+    if type(mensaje) == type(str()) and type(mensaje_error) == type(str()):
+        while True:
+            cadena = input(mensaje)
+            if es_letras_con_numeros(cadena):
+                return cadena
+            else:
+                print(mensaje_error)
+
+
+
 
 def es_solo_texto_con_algun_caracter(string: str)-> bool:#6
     """_summary_
@@ -31,7 +67,7 @@ def es_solo_texto_con_algun_caracter(string: str)-> bool:#6
             return_aux = True
         return return_aux
 
-def ingresar_cadena_valida(texto: str)-> str:
+def ingresar_cadena_valida(mensaje: str, mensaje_error: str)-> str:
     """_summary_
         Pide un dato que sea unicamente de tipo string
 
@@ -42,13 +78,13 @@ def ingresar_cadena_valida(texto: str)-> str:
     Returns:
         _type_(str): retorna la cadena validada al ingreso de texto
     """
-    if type(texto) == type(str()):
+    if type(mensaje) == type(str()) and type(mensaje_error) == type(str()):
         while True:
-            cadena = input(texto)
+            cadena = input(mensaje)
             if es_solo_texto(cadena):
                 return cadena
             else:
-                print("No puede ingresar numeros")#6
+                print(mensaje_error)
 
 def es_entero(string: str)-> bool:
     """_summary_
@@ -64,6 +100,44 @@ def es_entero(string: str)-> bool:
         if re.match("^[0-9]+$", string):
             return_aux = True
         return return_aux
+
+def es_flotante(string: str)-> bool:
+    """_summary_
+    Valida con regex que el string que se pasa por parametro sea un numero flotante
+    Args:
+        string (str): string a validar
+
+    Returns:
+        bool: true si el dato fue validado, false sino se pudo
+    """
+    if type(string) == type(str()):
+        return_aux = False
+        if re.match("^[0-9]+(\.[0-9]+)?$", string):
+            return_aux = True
+        return return_aux
+
+def pedir_flotante_valido(mensaje, mensaje_error):
+    """_summary_
+    Pide un entero positivo mayor a 0
+    Args:
+        entero_string (str): _description_
+        mensaje (_type_): _description_
+        mensaje_error (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    if type(mensaje) == type(str()) and type(mensaje_error) == type(str()):
+        while True:
+            flotante_string = input(mensaje)
+            if es_flotante(flotante_string):
+                float(flotante_string)
+                if float(flotante_string) > 0:
+                    return float(flotante_string)
+                else:
+                    print("No es un numero flotante")
+            else:
+                print(mensaje_error)
 
 def pedir_entero_valido(mensaje, mensaje_error):
     """_summary_

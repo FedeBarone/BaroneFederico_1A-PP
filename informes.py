@@ -2,6 +2,7 @@ from insumos import *
 from input import*
 from calculos import*
 from ordenamientos import*
+import re
 #======================================================MODULO DE INFORMES================================================================
 #=========================================================INFORME-1======================================================================
 def cargar_datos_desde_archivo(path: str)-> list:
@@ -192,7 +193,10 @@ def leer_desde_formato_JSON(path: str): #8
         path (str): ruta del archivo a leer
     """
     if type(path) == type(str()):
-        print(leer_json(path))
+        try:
+            print(leer_json(path))
+        except UnboundLocalError:
+            pass
 #=========================================================INFORME-9======================================================================
 def actualizar_precios(lista: list)-> None: #9
     """_summary_
@@ -212,14 +216,71 @@ def actualizar_precios(lista: list)-> None: #9
         }, lista))
         guardar_csv("insumos_copia.csv", lista)
 #=========================================================INFORME-10(EXTRA)===============================================================
+def agregar_producto(lista_i: list)-> list:
+    """_summary_
+    Agrega un producto a una lista de diccionarios
 
+    Args:
+        lista (str): lista a recorrer
 
+    Returns:
+        list: devuelve la lista con los productos agregados
+    """
+    if type(list) == type(list) and len(lista_i) > 0:
+        try:
+            with open("prueba.json", "r", encoding='utf-8') as file:
+                insumos = json.load(file)
+                lista_i = insumos["insumos"]
+        except FileNotFoundError:
+            lista_i = leer_csv("insumos.csv")
+            normalizar_datos_numericos(lista_i, "precio", "id")
+        
+        lista_marcas = cargar_marcas_txt("marcas.txt")
+
+        seguir = 's'
+        next_id = buscar_mayor_id(lista_i, "id")+ 1 
+        lista_producto = []
+
+        while seguir == 's':
+            diccionario_producto = {}
+            mostrar_elementos(lista_marcas)
+            marca_ingreso = ingresar_cadena_valida_con_o_sin_patron("Ingrese marca: ", "", False)
+            while not buscar_elemento_en_lista(lista_marcas, marca_ingreso):
+                    print("Esa marca no esta en la lista!")
+                    marca_ingreso = input("Reingrese marca: ")
+
+            caracteristica = ingresar_letras_numeros("Ingrese caracteristica", "Error...")
+
+            nombre_producto = ingresar_cadena_valida("Ingrese el nombre del producto: ", "Error...")
+
+            precio = pedir_flotante_valido("Ingrese el precio del prdoucto: ", "Error...")
+
+            diccionario_producto = {
+                                "id": next_id,
+                                "nombre": nombre_producto,
+                                "marca": marca_ingreso,
+                                "precio": precio,
+                                "caracteristicas": caracteristica   
+            }
+            lista_producto.append(diccionario_producto)
+            next_id = next_id + 1
+            seguir = input("\nDesea seguir ingresando?][s/n]")
+            while not validar_seguir_opcion(seguir):
+                print("dato invalido. Ingrese 's' para continuar o 'n' para salir.")
+                seguir = input("\nDesea seguir ingresando?][s/n]")
+    return lista_producto
 #=========================================================INFORME-11(EXTRA)===============================================================
+def exportar_a_csv(path: str, lista: list)-> None:
+    if type(path) == type(str()) and type(lista) == type(list()) and len(lista) > 0:
+        print("archivo generado!")
+        with open(path, 'w', encoding='utf-8') as file:
+            file.write("ID,NOMBRE,MARCA,PRECIO,CARACTERISTICAS\n")
+            for linea in lista:
+                file.write(f"{linea['id']},{linea['nombre']},{linea['marca']},${linea['precio']:.2f},{linea['caracteristicas']}\n")
 
-
-
-#=========================================================INFORME-12(EXTRA)===============================================================
-
-
-
-#=========================================================INFORME-13(EXTRA)===============================================================
+def exportar_a_json(path: str, lista: list)-> None:
+    if type(path) == type(str()) and type(lista) == type(list()) and len(lista) > 0:
+        print("archivo generado!")
+        insumos = {"insumos": lista}
+        with open(path, "w", encoding='utf-8') as file:
+            json.dump(insumos, file, indent = 4)

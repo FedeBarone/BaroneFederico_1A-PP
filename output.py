@@ -99,7 +99,7 @@ def mostrar_campos_cada_marca(marcas,lista ,key: str, key_dos: str, key_tres: st
     for marca in marcas:
         print("Marca: " +marca)
         for elemento in lista:
-            if marca in elemento[key]:
+            if marca == elemento[key]:
                 print(f"Nombre: {elemento[key_dos]} Precio: {elemento[key_tres]}")# 3
         print("=====================================================")
 

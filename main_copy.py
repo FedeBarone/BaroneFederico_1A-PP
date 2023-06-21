@@ -70,53 +70,37 @@
 # from busquedas import buscar_elemento_en_lista
 # import json
 
-# def leer_csv(path: str)-> list:
-#     """_summary_
-#     Lee un archivo csv y crea una lista de diccionarios a partir de los datos del archivo
-#     Args:
-#         path (str): ruta del archivo a leer
+def leer_csv(path: str)-> list:
+    """_summary_
+   Lee un archivo csv y crea una lista de diccionarios a partir de los datos del archivo
+    Args:
+        path (str): ruta del archivo a leer
 
-#     Returns:
-#         list: retorna una lista de diccionarios
-#     """
-#     lista = []
-#     with open(path, 'r', encoding='utf-8') as file:
-#         file = file.readlines()
-#         file.pop(0)
-#         diccionario = {}
-#         for linea in file:
-#             linea = linea.replace("\n", "")
-#             lista_str = linea.split(",")
-#             diccionario = {
-#                 "id": lista_str[0],
-#                 "nombre": lista_str[1],
-#                 "marca": lista_str[2],
-#                 "precio": lista_str[3].replace("$", ""),
-#                 "caracteristicas": lista_str[4]
-#             }
-#             lista.append(diccionario)
-#     return lista#punto 1
-
-
-# lista_insumos = leer_csv("insumos.csv")
-
-#listar cantidad por marca punto 2
+    Returns:
+        list: retorna una lista de diccionarios
+    """
+    lista = []
+    with open(path, 'r', encoding='utf-8') as file:
+        file = file.readlines()
+        file.pop(0)
+        diccionario = {}
+        for linea in file:
+            linea = linea.replace("\n", "")
+            lista_str = linea.split(",")
+            diccionario = {
+                "id": lista_str[0],
+                "nombre": lista_str[1],
+                "marca": lista_str[2],
+                "precio": lista_str[3].replace("$", ""),
+                "caracteristicas": lista_str[4]
+            }
+            lista.append(diccionario)
+    return lista#punto 1
 
 
-# contador_marcas = {}
+lista_insumos = leer_csv("insumos.csv")#FUNCIONA PERFECTO
 
-# for insumo in lista_insumos:
-#     if insumo["marca"] in contador_marcas:
-#         contador_marcas[insumo["marca"]] += 1
-#     else:
-#         contador_marcas[insumo["marca"]] = 1
-
-# for marca in contador_marcas:
-#     print(f"{marca}: {contador_marcas[marca]}")
-#     print("---------------------------------")####### funciona bien
-
-# print("\n")
-
+# #listar cantidad por marca punto 2
 # print("#############################################################################################")
 # lista_marcas = []
 # for insumo in lista_insumos:
@@ -133,10 +117,10 @@
 #     contador[marca]
 #     print(f"{'Marca'}: " + marca)
 #     print(f"{'Cantidad insumos'}: ", contador[marca])
-#     print("======================================================")####### funciona bien
+#     print("======================================================")#FUNCIONA PERFECTO
 # print("\n")
-# #lista_filtrada = quitar_repetidos(lista, "marca")
-# #diccionario = contar_dato(lista_filtrada, lista, "marca")
+#lista_filtrada = quitar_repetidos(lista, "marca")
+#diccionario = contar_dato(lista_filtrada, lista, "marca")
 # #mostrar_contador_dato(diccionario, "Marca", "Cantidad isumos")
 
 
@@ -147,27 +131,19 @@
 #     if not insumo["marca"] in marcas:
 #         marcas.append(insumo["marca"])
 
+# print("===============================================================================")
 # for marca in marcas:
 #     print(f"Marca: {marca}")
 #     for insumo in lista_insumos:
 #         if marca == insumo["marca"]:
 #             print(f"{insumo['nombre']} {insumo['precio']}")####### funciona bien
-# print("\n")
-# # 4. Buscar insumo por característica: El usuario ingresa una
-# # característica (por ejemplo, "Sin Granos") y se listarán todos los
-# # insumos que poseen dicha característica.
-# def producto_esta_en_la_marca(lista: list, producto):
-#     """_summary_
-#     Verifica que un producto pertenezca a la marca y no que simplemente este en la lista
-#     Args:
-#         lista (list): lista a recorrer
-#         producto (str): producto a verificar si pertenece
-#         marca (str): marca a verificar si pertenece
+#     print("===============================================================================")#FUNCIONA PERFECTO
+#print("\n")
 
-#     Returns:
-#         _type_: true si el producto pertenece a la marca o falso sino pertence
-#     """
-#     if type(lista) == type(list()) and len(lista) > 0 and type(producto) == type(str()) and type(marca) == type(str()):
+# # # 4. Buscar insumo por característica: El usuario ingresa una
+# # # característica (por ejemplo, "Sin Granos") y se listarán todos los
+# # # insumos que poseen dicha característica.
+# def producto_esta_en_la_marca(lista: list, producto):
 #         esta = False
 #         for insumo in lista:
 #             if producto in insumo["caracteristicas"]:
@@ -177,7 +153,7 @@
 
 # for insumo in lista_insumos:
 #     print(insumo["caracteristicas"])
-#     print("======================================================================")
+#     print("======================================================================")#FUNCIONA PERFECTO
 # print("\n")
 
 # caracteristica = input("Ingrese caracteristica: ")
@@ -204,7 +180,7 @@
 #             lista_insumos[j] = aux
 
 # for i in lista_insumos:
-#     print(i)####### funciona bien
+#     print(i)####### #FUNCIONA PERFECTO
 
 # 6. Realizar compras: Permite realizar compras de productos. El usuario
 # ingresa una marca y se muestran todos los productos disponibles de
@@ -213,6 +189,7 @@
 # Al finalizar, se muestra el total de la compra y se genera un archivo
 # TXT con la factura de la compra, incluyendo cantidad, producto,
 # subtotal y el total de la compra.
+
 # def producto_esta(lista, producto):
 #     flag = False
 #     for insumo in lista:
@@ -221,31 +198,26 @@
 #             break
 #     return flag
 
-
-# def buscar_ultimo_id(lista):
-#     flag = False
-#     ultimo_id = None
-#     for elemento in lista:
-#         if elemento > ultimo_id or flag == False:
-#             ultimo_id = elemento
-#             flag = True
-#     return ultimo_id
-
-# with open("punto6prueba.txt", "r") as archivo:
-#     for linea in archivo:
-#         if "ID:" in linea:
-#             id_compra = linea.split("ID:")[1].strip()
-#             print(id_compra)
-
+# id_compra = 0
+# try:
+#     with open("punto6prueba.txt", "r") as archivo:
+#         for linea in archivo:
+#             if "ID COMPRA:" in linea:
+#                 id_compra = linea.split("ID COMPRA:")[1].strip()
+#                 print(id_compra)           
+# except FileNotFoundError:
+#     print("Debe generar un archivo")
 
 # #==========================================================================================
 # marcas = []
+# lista_marca_producto = []
 # seguir = "s"
 # lista_productos = []
 
 # acum_total = 0
 
 # id_compra = int(id_compra)
+
 # while seguir == "s":
 #     diccionario = {}
 #     acum = 0
@@ -267,33 +239,28 @@
 #     while not producto_esta(lista_insumos, producto):
 #         producto = input("Ingrese producto de nuevo: ")
 
-#     # ==================================================VERIFICACION ALIMENTO PERRO PEDIGREE========================================
-#     alimentos_perro_pedigree = []
-
 #     for insumo in lista_insumos:
 #         if marca == insumo["marca"] and producto == insumo["nombre"]:
-#             alimentos_perro_pedigree.append(insumo)
-#     print(alimentos_perro_pedigree)
+#             lista_marca_producto.append(insumo)
 
-#     if len(alimentos_perro_pedigree) > 1:
+#     if len(lista_marca_producto) > 1:
 #         print("La marca pedigree tiene dos productos con el mismo nombre. Seleccione uno: ")
-#         for i in range(len(alimentos_perro_pedigree)):
-#             producto = alimentos_perro_pedigree[i]
+#         for i in range(len(lista_marca_producto)):
+#             producto = lista_marca_producto[i]
 #             print(f"{i+1}. {producto['nombre']} - {producto['precio']}")
 
 #         indice_producto_elegido = int(input("Ingrese el número del producto seleccionado: ")) - 1
 
-#         producto_elegido = alimentos_perro_pedigree[indice_producto_elegido]
+#         producto_elegido = lista_marca_producto[indice_producto_elegido]
 
-#     elif len(alimentos_perro_pedigree) == 1:
-#         producto_elegido = alimentos_perro_pedigree[0]
+#     elif len(lista_marca_producto) == 1:
+#         producto_elegido = lista_marca_producto[0]
 
 #     else:
 #         print("No se encontró el producto seleccionado.")
 
 #     acum += float(producto_elegido["precio"])
 
-#     # ========================================================================================
 #     cantidad_producto = int(input("Ingrese cantidad de productos: "))
 
 #     subtotal = acum * cantidad_producto
@@ -306,8 +273,6 @@
 
 #     lista_productos.append(diccionario)
 #     acum_total += subtotal
-#     print(lista_productos)
-#     print(acum_total)
 #     seguir = input("Desea seguir ingresando datos? [s/n]")
 
 #     if seguir == "n":
@@ -315,12 +280,150 @@
 #         print(acum_total)
 
 #         with open("punto6prueba.txt", "a") as archivo:
-#             archivo.write(f"ID: {id_compra}\n")
+#             archivo.write("===================================================\n")
+#             archivo.write(f"ID COMPRA: {id_compra}\n")
 #             for producto in lista_productos:
+#                 archivo.write("===================================================\n")
 #                 archivo.write(f"Producto: {producto['producto']}\n")
+#                 archivo.write("===================================================\n")
 #                 archivo.write(f"Cantidad: {producto['cantidad_producto']}\n")
+#                 archivo.write("===================================================\n")
 #                 archivo.write(f"Subtotal: {producto['subtotal']}\n")
-#             archivo.write(f"{str(acum_total)}\n")
+#             archivo.write("===================================================\n")
+#             archivo.write(f"TOTAL: {str(acum_total)}\n")
+#             archivo.write("===================================================\n")
+
+
+def producto_esta(lista, producto):
+    flag = False
+    for insumo in lista:
+        if producto.lower() in insumo["nombre"].lower():
+            flag = True
+            break
+    return flag
+
+
+def marca_esta(lista, marca):
+    flag = False
+    for insumo in lista:
+        if marca.lower() in insumo["marca"].lower():
+            flag = True
+            break
+    return flag
+
+
+def buscar_ultimo_id(lista):
+    flag = False
+    ultimo_id = None
+    for elemento in lista:
+        if elemento > ultimo_id or flag == False:
+            ultimo_id = elemento
+            flag = True
+    return ultimo_id
+
+id_compra = 0
+try:
+    with open("punto6prueba.txt", "r") as archivo:
+        for linea in archivo:
+            if "ID COMPRA:" in linea:
+                id_compra = linea.split("ID COMPRA:")[1].strip()
+                print(id_compra)           
+except FileNotFoundError:
+    print("Debe generar un archivo")
+
+# #==========================================================================================
+marcas = []
+seguir = "s"
+lista_productos = []
+
+acum_total = 0
+
+id_compra = int(id_compra)
+
+while seguir == "s":
+    diccionario = {}
+    acum = 0
+
+    for insumo in lista_insumos:
+        marcas.append(insumo["marca"])
+
+    for marca in marcas:
+        print(marca)
+
+    marca = input("Ingrese marca: ").lower()
+
+    while not marca_esta(lista_insumos, marca):
+        marca = input("Ingrese marca: ").lower()
+
+    for insumo in lista_insumos:
+        if marca.lower() in insumo["marca"].lower():
+            print(f"{insumo['nombre']} {insumo['precio']}")
+
+    producto = input("Ingrese producto: ").lower()
+
+    while not producto_esta(lista_insumos, producto):
+        producto = input("Ingrese producto de nuevo: ").lower()
+
+#     # ==================================================VERIFICACION ALIMENTO PERRO PEDIGREE========================================
+    alimentos_perro_pedigree = []
+
+    for insumo in lista_insumos:
+        if marca.lower() in insumo["marca"].lower() and producto.lower() in insumo["nombre"].lower():
+            alimentos_perro_pedigree.append(insumo)
+    print(alimentos_perro_pedigree)
+
+    if len(alimentos_perro_pedigree) > 1:
+        print("La marca pedigree tiene dos productos con el mismo nombre. Seleccione uno: ")
+        for i in range(len(alimentos_perro_pedigree)):
+            producto = alimentos_perro_pedigree[i]
+            print(f"{i+1}. {producto['nombre']} - {producto['precio']}")
+
+        indice_producto_elegido = int(input("Ingrese el número del producto seleccionado: ")) - 1
+
+        producto_elegido = alimentos_perro_pedigree[indice_producto_elegido]
+
+    elif len(alimentos_perro_pedigree) == 1:
+        producto_elegido = alimentos_perro_pedigree[0]
+
+    else:
+        print("No se encontró el producto seleccionado.")
+
+    acum += float(producto_elegido["precio"])
+
+    # ========================================================================================
+    cantidad_producto = int(input("Ingrese cantidad de productos: "))
+
+    subtotal = acum * cantidad_producto
+
+    diccionario = {
+        "producto": producto_elegido["nombre"],
+        "cantidad_producto": cantidad_producto,
+        "subtotal": subtotal
+    }
+
+    lista_productos.append(diccionario)
+    acum_total += subtotal
+    print(lista_productos)
+    print(acum_total)
+    seguir = input("Desea seguir ingresando datos? [s/n]")
+
+    if seguir == "n":
+        id_compra += 1
+        print(acum_total)
+
+        with open("punto6prueba.txt", "a") as archivo:
+            archivo.write("===================================================\n")
+            archivo.write(f"ID COMPRA: {id_compra}\n")
+            for producto in lista_productos:
+                archivo.write("===================================================\n")
+                archivo.write(f"Producto: {producto['producto']}\n")
+                archivo.write("===================================================\n")
+                archivo.write(f"Cantidad: {producto['cantidad_producto']}\n")
+                archivo.write("===================================================\n")
+                archivo.write(f"Subtotal: {producto['subtotal']}\n")
+            archivo.write("===================================================\n")
+            archivo.write(f"TOTAL: {str(acum_total)}\n")
+            archivo.write("===================================================\n")
 
 
 

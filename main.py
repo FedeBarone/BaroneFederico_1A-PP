@@ -74,27 +74,42 @@ while True:
             if not cargar_lista:
                 print("Debe cargar el archivo!")
             else:
-                listar_cantidad_por_marca(lista_archivo)
+                try:
+                    listar_cantidad_por_marca(lista_archivo)
+                except NameError:
+                    print("Cargue el archivo por favor")    
         case '3':
             if not cargar_lista:
                 print("Debe cargar el archivo!")
             else:
-                listar_insumos_por_marca(lista_archivo, "marca", "nombre", "precio")
+                try:
+                    listar_insumos_por_marca(lista_archivo, "marca", "nombre", "precio")
+                except NameError:
+                    print("Cargue el archivo por favor")
         case '4':
             if not cargar_lista:
                 print("Debe cargar el archivo!")
             else:
-                buscar_insumo_por_característica("Ingrese una caracteristica: ", lista_archivo)
+                try:
+                    buscar_insumo_por_característica("Ingrese una caracteristica: ", lista_archivo)
+                except NameError:
+                    print("Cargue el archivo por favor")
         case '5':
             if not cargar_lista:
                 print("Debe cargar el archivo!")
             else:
-                listar_insumos_ordenados(lista_archivo, "marca", "precio")
+                try:
+                    listar_insumos_ordenados(lista_archivo, "marca", "precio")
+                except NameError:
+                    print("Cargue el archivo por favor")
         case '6':
             if not cargar_lista:
                 print("Debe cargar el archivo!")
             else:
-                realizar_compras(lista_archivo)
+                try:
+                    realizar_compras(lista_archivo)
+                except NameError:
+                    print("Cargue el archivo por favor")
         case '7':
             if not cargar_lista:
                 print("Debe cargar el archivo!")

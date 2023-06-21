@@ -83,6 +83,13 @@ def mostrar_insumos(lista: list):
         mostrar_insumo(lista[i])
         print("------------------------------------------------------------------------------------------------------------------------------------------------------------------")
 
+def imprimir_lista_ingreso_productos(lista: list, key_uno: str, key_dos: str):
+    for i in range(len(lista)):
+        print("===============================")
+        producto = lista[i]
+        print(f"|{i+1}| {producto[key_uno]} {producto[key_dos]}")
+        print("===============================")
+
 def producto_esta_en_la_marca(lista: list, producto: str, marca: str):
     """_summary_
     Verifica que un producto pertenezca a la marca y no que simplemente este en la lista
@@ -101,6 +108,14 @@ def producto_esta_en_la_marca(lista: list, producto: str, marca: str):
                 esta = True
                 break
         return esta
+    
+def filtrar_insumos_por_marca_y_producto(lista_insumos, marca, producto):
+    lista_ingreso_productos = []
+    for insumo in lista_insumos:
+        if marca == insumo["marca"] and producto == insumo["nombre"]:
+            lista_ingreso_productos.append(insumo)
+    return lista_ingreso_productos
+
 
 def mostrar_marcas(lista: list):
     """_summary_
@@ -113,26 +128,26 @@ def mostrar_marcas(lista: list):
         for elemento in lista_sin_repe:
             print(elemento)
 
-def acumular_precio_insumos(lista: list, elemento_aux: str, key_uno: str, elemento_aux_dos: str, key_dos: str, key_tres: str):#BIEN
-    """_summary_
-    Acumula el precio de todos los insumos
-    Args:
-        lista (list): lista a recorrer
-        elemento_aux (str): elemento pasado por parametro a comparar
-        key_uno (str): campo de la lista a comparar
-        elemento_aux_dos (str): elemento pasado por parametro a comparar
-        key_dos (str): campo a comparar
-        key_tres (str): campo a acumular
+# def acumular_precio_insumos(lista: list, elemento_aux: str, key_uno: str, elemento_aux_dos: str, key_dos: str, key_tres: str):#BIEN
+#     """_summary_
+#     Acumula el precio de todos los insumos
+#     Args:
+#         lista (list): lista a recorrer
+#         elemento_aux (str): elemento pasado por parametro a comparar
+#         key_uno (str): campo de la lista a comparar
+#         elemento_aux_dos (str): elemento pasado por parametro a comparar
+#         key_dos (str): campo a comparar
+#         key_tres (str): campo a acumular
 
-    Returns:
-        _type_: _description_
-    """
-    if type(lista) == type(list()) and len(lista) > 0 and type(elemento_aux) == type(str()) and type(key_uno) == type(str()) and type(elemento_aux_dos) == type(str()) and type(key_dos) == type(str())and type(key_tres) == type(str()):
-        acum = 0
-        for insumo in lista:
-            if elemento_aux == insumo[key_uno] and elemento_aux_dos == insumo[key_dos]:
-                acum += float(insumo[key_tres])
-        return acum
+#     Returns:
+#         _type_: _description_
+#     """
+#     if type(lista) == type(list()) and len(lista) > 0 and type(elemento_aux) == type(str()) and type(key_uno) == type(str()) and type(elemento_aux_dos) == type(str()) and type(key_dos) == type(str())and type(key_tres) == type(str()):
+#         acum = 0
+#         for insumo in lista:
+#             if elemento_aux == insumo[key_uno] and elemento_aux_dos == insumo[key_dos]:
+#                 acum += float(insumo[key_tres])
+#         return acum
 
 def guardar_json(path: str, lista: list)-> None:#BIEN
     """_summary_
@@ -242,6 +257,10 @@ def imprimir_patron_producto()-> str:#BIEN
                     |^Arnes para perros$|^Bebedero para mascotas$|^Peine para perros$|^Cepillo para gatos$|^Arena para gatos$|
                     |^Ropa para perros$|^Alimento para peces$|^Transportadora para perros$|^Cepillo para perros$"""
     return patron_producto
+
+
+
+
 
 
 

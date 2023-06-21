@@ -284,3 +284,24 @@ def exportar_a_json(path: str, lista: list)-> None:
         insumos = {"insumos": lista}
         with open(path, "w", encoding='utf-8') as file:
             json.dump(insumos, file, indent = 4)
+#=========================================================INFORME-12,13,14,15,16(EXTRA)===============================================================
+def ejecutar_ventas_stock(lista):
+    mostrar_insumos_lista_mapeada(lista)
+    insumo =  ingresar_cadena_valida("Ingrese el insumo que va a vender: ", "Error...")
+    while not esta_en(lista, insumo, "nombre"):
+        insumo =  ingresar_cadena_valida("Ingrese el insumo que va a vender: ", "Error...")
+
+    cantidad = pedir_entero_valido("Ingrese cantidad: ", "Error")
+    realizar_venta(insumo, cantidad)
+
+    mostrar_marcas(lista)
+
+    marca = ingresar_cadena_valida("Ingrese una marca: ", "Error")
+    while not esta_en(lista, marca, "marca"):
+        marca = ingresar_cadena_valida("Ingrese una marca: ", "Error")
+
+    mostrar_stock_por_marca(lista, marca)
+
+    imprimir_bajo_stock(lista)
+    print("Se ha generado el archivo 'bajo_stock.csv' con los productos de bajo stock.")
+

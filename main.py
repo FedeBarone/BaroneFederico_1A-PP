@@ -62,17 +62,38 @@
 # 12. Salir del programa
 
 
+# Recuperatorio Laboratorio
+
+# Primer parcial
+# A. Al momento de cargar los datos desde el archivo CSV (en la opción 1 del
+# menú), el programa deberá calcular el stock disponible de cada insumo. Para
+# ello deberán crear por cada uno, un valor aleatorio entre 0 y 10. Utilizar la
+# función map.
+
+# B. Realizar las modificaciones necesarias para que al momento de realizar una
+# venta de productos, la misma esté condicionada por el stock disponible, si no
+# hay stock disponible el programa debe informarle al usuario y sugerir que
+# compre menos cantidad, en caso de que el stock sea superior a cero.
+
+# C. Agregar opción stock por marca: Pedirle al usuario una marca y
+# mostrar el stock total de los productos de esa marca.
+
+# D. Agregar opción imprimir bajo stock. Que imprima en un archivo de
+# texto en formato csv. Un listado con el nombre de producto y el stock de
+# aquellos productos que tengan 2 o menos unidades de stock.
+
 
 import os
 from output import *
 from informes import *
 from insumos import *
+import random
 
 lista_menu_principal = [
     "1- Cargar datos desde archivo", "2- Listar cantidad por marca", "3- Listar insumos por marca",
     "4- Buscar insumo por característica", "5- Listar insumos ordenados", "6- Realizar compras",
     "7- Guardar en formato JSON", "8- Leer desde formato JSON", "9- Actualizar precios", 
-    "10- Agregar nuevo producto a la lista ", "11- Guardar datos actualizados", "12- Salir del programa"
+    "10- Agregar nuevo producto a la lista ", "11- Guardar datos actualizados",  "12- Hacer ventas", "13- Salir del programa"
 ]
 cargar_lista = False
 flag_lista_producto = False
@@ -85,6 +106,7 @@ while True:
                 print("Ya se ha cargado el archivo csv")
             else:
                 lista_archivo = cargar_datos_desde_archivo("insumos.csv")
+                lista_mapeada_stock = list(map(actualizar_stock, lista_archivo))
                 normalizar_datos_numericos(lista_archivo, "precio", "id")
             cargar_lista = True
         case '2':
@@ -172,6 +194,11 @@ while True:
                 except NameError:
                     print("Cargue el archivo por favor")
         case '12':
+            if not cargar_lista:
+                print("Debe cargar")
+            else:
+                ejecutar_ventas_stock(lista_mapeada_stock)
+        case '14':
             salir = salir_del_menu()
             if salir == 's':
                 break

@@ -4,6 +4,7 @@ import re
 from busquedas import*
 from output import*
 from input import*
+import random
 #------------------------------------------------------MODULO FUNCIONES DE INSUMOS-------------------------------------------------------
 def normalizar_datos_numericos(lista: list, key: str, key_dos: str)-> list:
     """_summary_
@@ -25,6 +26,7 @@ def normalizar_datos_numericos(lista: list, key: str, key_dos: str)-> list:
             print("No normalizado!")
     else:
         print("La lista esta vacia")
+
 
 def leer_csv(path: str)-> list:
     """_summary_
@@ -51,9 +53,8 @@ def leer_csv(path: str)-> list:
                 "caracteristicas": lista_str[4]
             }
             lista.append(diccionario)
-    return lista
 
-lista_insumos = leer_csv("insumos.csv")
+    return lista
 
 def mostrar_insumo(insumo: dict):
     """_summary_
@@ -287,3 +288,92 @@ def mostrar_elementos(lista: list)-> None:
     """
     for elemento in lista:
         mostrar_elemento(elemento)
+
+
+
+# Recuperatorio Laboratorio
+
+# A. Al momento de cargar los datos desde el archivo CSV (en la opción 1 del
+# menú), el programa deberá calcular el stock disponible de cada insumo. Para
+# ello deberán crear por cada uno, un valor aleatorio entre 0 y 10. Utilizar la ####LISTO
+# función map.
+
+# B. Realizar las modificaciones necesarias para que al momento de realizar una
+# venta de productos, la misma esté condicionada por el stock disponible, si no
+# hay stock disponible el programa debe informarle al usuario y sugerir que
+# compre menos cantidad, en caso de que el stock sea superior a cero.
+
+# C. Agregar opción stock por marca: Pedirle al usuario una marca y
+# mostrar el stock total de los productos de esa marca.
+
+# D. Agregar opción imprimir bajo stock. Que imprima en un archivo de
+# texto en formato csv. Un listado con el nombre de producto y el stock de
+# aquellos productos que tengan 2 o menos unidades de stock.
+
+lista_insumos = leer_csv("insumos.csv")
+
+def actualizar_stock(insumo):#A
+    insumo['stock'] = random.randint(0, 10)#A
+    return insumo#A
+
+lista_mapeada_stock = list(map(actualizar_stock, lista_insumos))#A
+print(lista_mapeada_stock)
+
+def realizar_venta(nombre_producto, cantidad):
+    insumo = None
+    for producto in lista_mapeada_stock:
+        if producto['nombre'] == nombre_producto:
+            insumo = producto
+            break
+
+    if insumo:
+        if insumo['stock'] >= cantidad:
+            insumo['stock'] -= cantidad
+            print(f"Venta exitosa: {cantidad} unidades de {insumo['nombre']}")
+        else:
+            print(f"No hay suficiente stock de {insumo['nombre']} disponible: {insumo['stock']}")
+            if insumo['stock'] < cantidad:
+                sugerencia = insumo['stock']
+            else:
+                sugerencia = cantidad
+
+            print(f"Sugerencia: va a comprar{sugerencia} unidades o menos.")
+    else:
+        print("El producto ingresado no se encuentra en la lista de insumos.")
+
+
+
+
+def mostrar_insumos_lista_mapeada(lista):
+    for insumo in lista_mapeada_stock:
+        print(insumo["nombre"])
+
+
+
+def mostrar_stock_por_marca(lista, marca):
+    acum_total = 0
+    for insumo in lista:
+        if insumo['marca'] == marca:
+            acum_total += insumo['stock']
+    print(f"stock total de productos de la marca {marca}: {acum_total}")
+
+def imprimir_bajo_stock(lista):
+    insumos_bajo_stock = []
+    for insumo in lista:
+        if insumo['stock'] <= 2:
+            insumos_bajo_stock.append(insumo)
+    with open('bajo_stock.csv', 'w', encoding='utf-8') as file:
+        file.write("NOMBRE, STOCK\n")
+        for insumo in insumos_bajo_stock:
+            file.write(f"{insumo['nombre']},{insumo['stock']}\n")
+
+def esta_en(lista: list, marca: str, key):
+    if type(lista) == type(list()) and len(lista) > 0 and type(marca) == type(str()):
+        esta = False
+        for insumo in lista:
+            if insumo[key] == marca:
+                esta = True
+                break
+        return esta
+    
+
